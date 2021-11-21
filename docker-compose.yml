@@ -1,0 +1,22 @@
+version: "3"
+services:
+  app:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    privileged: true
+    links:
+      - db
+    tty: true
+    volumes:
+      - "./workspace:/var/www/html:cached"
+    container_name: "nginx_project"
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    container_name: "mysql5.7"
